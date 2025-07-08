@@ -3,11 +3,11 @@
 # Copyright (c) 2025 Yao Zi <ziyao@disroot.org>
 
 warn() {
-	echo "$@" 2>/dev/null
+	echo "$@" 1>&2
 }
 
 die() {
-	echo "$@" 2>/dev/null
+	echo "$@" 1>&2
 	exit 1
 }
 
