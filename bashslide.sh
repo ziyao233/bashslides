@@ -33,8 +33,10 @@ check_data_file header.html
 check_data_file footer.html
 
 pageflipper="==="
+mdargs="--fstrikethrough"
 
-converted="$(md2html -)" || die "failed to convert the documentation to html"
+converted="$(md2html $mdargs -)" ||
+	die "failed to convert the documentation to html"
 
 cat "$datadir/header.html"
 echo "$converted"
