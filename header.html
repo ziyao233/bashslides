@@ -6,13 +6,17 @@
 var index = 0;
 var elems = [];
 
-function show(newIndex) {
+function
+show(newIndex)
+{
 	elems[index].style.display = "none";
 	index = newIndex;
 	elems[index].style.display = "";
 }
 
-function handleKey(event) {
+function
+handleKey(event)
+{
 	if (event.defaultPrevented)
 		return;
 
@@ -32,7 +36,9 @@ function handleKey(event) {
 	event.preventDefault();
 }
 
-function init() {
+function
+init()
+{
 	for (child of document.body.childNodes) {
 		if (child.style) {
 			child.style.display = "none";
