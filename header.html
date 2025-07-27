@@ -5,6 +5,8 @@
 <script>
 var index = 0;
 var elems = [];
+var pressTimestamp;
+const pageflipTimeout = 300;
 
 function
 show(newIndex)
@@ -15,6 +17,20 @@ show(newIndex)
 }
 
 function
+showPrev()
+{
+	if (index != 0)
+		show(index - 1);
+}
+
+function
+showNext()
+{
+	if (index != elems.length - 1)
+		show(index + 1);
+}
+
+function
 handleKey(event)
 {
 	if (event.defaultPrevented)
@@ -22,17 +38,45 @@ handleKey(event)
 
 	switch(event.key) {
 	case "ArrowLeft":
-		if (index != 0)
-			show(index - 1);
+		showPrev();
 		break;
 	case "ArrowRight":
-		if (index != elems.length - 1)
-			show(index + 1);
+		showNext();
 		break;
 	default:
 		return;
 	}
 
+	event.preventDefault();
+}
+
+function
+handlePress(event) {
+	if (event.defaultPrevented)
+		return;
+
+	if (pressTimestamp)
+		return;
+
+	pressTimestamp = Date.now();
+
+	event.preventDefault();
+}
+
+function
+handleRelease(event) {
+	if (event.defaultPrevented)
+		return;
+
+	if (!pressTimestamp)
+		return;
+
+	if (Date.now() - pressTimestamp < pageflipTimeout)
+		showNext();
+	else
+		showPrev();
+
+	pressTimestamp = undefined;
 	event.preventDefault();
 }
 
@@ -49,6 +93,8 @@ init()
 	show(0);
 
 	window.addEventListener("keydown", handleKey);
+	window.addEventListener("mouseup", handleRelease);
+	window.addEventListener("mousedown", handlePress);
 }
 
 window.onload = init;
@@ -58,6 +104,7 @@ window.onload = init;
 	font-size: 3vw;
 	color: white;
 	text-align: center;
+	line-height: 1.2em;
 }
 
 h1 {
@@ -98,6 +145,7 @@ ul {
 
 li {
 	text-align: left;
+	margin: 0.1em 0;
 }
 
 </style>
